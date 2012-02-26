@@ -47,7 +47,7 @@ sub replay_method_invocation {
 
     if ($expectation) {
 	pass('Expected mock method invoked.'.$method_detail);
-	return $expectation->retrieve_return();
+	return $expectation->retrieve_result();
     }
     else {
 	fail('Unexpected mock method invoked.'.$method_detail);
@@ -65,9 +65,12 @@ sub record_method_invocation {
 }
 
 sub find_expectation {
-  my ($self, $args) = @_;
-  return first { $_->match($args) }
-               @{$self->{_expectations}};
+    my ($self, $args) = @_;
+    my @expectations = grep { $_->matches($args) }
+                            @{$self->{_expectations}};
+
+    my $result = first { $_->has_result } @expectations;
+    return $result || first { $_->has_stub_result } @expectations;
 }
 
 sub expect {

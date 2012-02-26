@@ -109,6 +109,65 @@ subtest 'default mock' => sub {
     is($actual2, $result2, 'result2');
     verify($mock);
   };
+
+  reset($mock);
+
+  subtest 'multiple `and_[scalar|array]_return.' => sub {
+    my $args = 'argument';
+    my $result1 = 'a result of first';
+    my @result2 = qw(a result of second);
+    my $result3 = 'a result of third';
+
+    expect($mock->foo($args))
+      ->and_scalar_return($result1)
+      ->and_array_return(@result2)
+      ->and_scalar_return($result3);
+    replay($mock);
+
+    my $actual1 = $mock->foo($args);
+    my @actual2 = $mock->foo($args);
+    my $actual3 = $mock->foo($args);
+
+    is($actual1, $result1, 'result1');
+    is_deeply(\@actual2, \@result2, 'result2');
+    is($actual3, $result3, 'result3');
+    verify($mock);
+  };
+
+  reset($mock);
+
+  subtest 'and_stub_scalar_return' => sub {
+    my $args1 = 'argument';
+    my $result1_1 = 'a result of first.';
+    my $result1_2 = 'a result of second.';
+    my $args2 = 'other';
+    my $result2 = 'a result of other.';
+
+    expect($mock->foo($args1))->and_scalar_return($result1_1);
+    expect($mock->foo($args1))->and_stub_scalar_return($result1_2);
+    expect($mock->foo($args2))->and_stub_scalar_return($result2);
+    replay($mock);
+
+    my $actual1_1 = $mock->foo($args1);
+    my $actual1_2 = $mock->foo($args1);
+    my $actual1_3 = $mock->foo($args1);
+    my $actual2 = $mock->foo($args2);
+
+    is($actual1_1, $result1_1, 'result1_1');
+    is($actual1_2, $result1_2, 'result1_2');
+    is($actual1_3, $result1_2, 'result1_3');
+    is(  $actual2,   $result2,   'result2');
+
+    verify($mock);
+  };
+
+  reset($mock);
+
+  subtest 'expec with `stub_scalar_return`, but no call mock method.' => sub {
+    expect($mock->foo())->and_stub_scalar_return('');
+    replay($mock);
+    verify($mock); # pass
+  };
 };
 
 

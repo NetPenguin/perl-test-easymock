@@ -8,11 +8,10 @@ use Scalar::Util qw(refaddr);
 sub new {
     my ($class, $args) = @_;
     return bless {
-	_mock => $args->{mock},
-	_method => $args->{method},
-	_args => $args->{args},
-	_returns => [],
-	_count => 0,
+        _mock => $args->{mock},
+        _method => $args->{method},
+        _args => $args->{args},
+        _results => [ { code => sub { return; }, implicit => 1 } ],
     }, $class;
 }
 
@@ -21,47 +20,61 @@ sub mock {
     return $self->{_mock};
 }
 
-sub push_return {
+sub push_result {
     my ($self, $code) = @_;
-    push @{$self->{_returns}}, $code;
+    $self->remove_implicit_result();
+    push @{$self->{_results}}, { code => $code };
 }
 
-sub retrieve_return {
+sub set_stub_result {
+    my ($self, $code) = @_;
+    $self->remove_implicit_result();
+    $self->{_stub_result} = { code => $code };
+}
+
+sub remove_implicit_result {
     my ($self) = @_;
-    my $code = shift @{$self->{_returns}};
-    $self->{_count} += 1;
-    return unless $code;
-    return $code->();
+    $self->{_results} = [
+        grep { !$_->{implicit} } @{$self->{_results}}
+    ];
 }
 
-sub match {
+sub retrieve_result {
+    my ($self) = @_;
+    my $result = shift @{$self->{_results}} || $self->{_stub_result};
+    croak('no result.') unless $result;
+    return $result->{code}->();
+}
+
+sub has_result {
+    my ($self) = @_;
+    return @{$self->{_results}} > 0;
+}
+
+sub has_stub_result {
+    my ($self) = @_;
+    return exists $self->{_stub_result};
+}
+
+sub matches {
     my ($self, $args) = @_;
-    # MEMO: any_times を実装する場合、is_satisfied では判定できなくなる
-    #       (any_times の場合、0回実行でも is_satisfied は真となる)
-    return !$self->is_satisfied
-	&& refaddr($self->{_mock}) == refaddr($args->{mock})
-	&& $self->{_method} eq $args->{method}
+    return refaddr($self->{_mock}) == refaddr($args->{mock})
+        && $self->{_method} eq $args->{method}
         && eq_array($self->{_args}, $args->{args});
 }
 
 sub is_satisfied {
     my ($self) = @_;
-    return scalar(@{$self->{_returns}}) == 0
-	&& $self->{_count} > 0;
+    return !$self->has_result;
 }
 
 sub unsatisfied_message {
     my ($self) = @_;
     return sprintf(
-	'%d calls of the `%s` method expected exist.',
-	scalar(@{$self->{_returns}}),
-	$self->{_method}
-    ) if scalar(@{$self->{_returns}}) > 0;
-
-    return sprintf(
-        'the `%s` method is not invoked.',
+        '%d calls of the `%s` method expected exist.',
+        scalar(@{$self->{_results}}),
         $self->{_method}
-    ) if $self->{_count} == 0;
+    ) if $self->has_result;
 
     return;
 }
