@@ -16,8 +16,10 @@ sub create_control {
 }
 
 sub new {
-    my $class = shift;
-    return bless {}, $class;
+    my ($class, $module) = @_;
+    return bless {
+	_module => $module,
+    }, $class;
 }
 
 sub create_mock {
@@ -85,9 +87,9 @@ sub replay {
 }
 
 sub reset {
-  my ($self) = @_;
-  $self->{_is_replay_mode} = 0;
-  $self->{_expectations} = [];
+    my ($self) = @_;
+    $self->{_is_replay_mode} = 0;
+    $self->{_expectations} = [];
 }
 
 sub verify {
