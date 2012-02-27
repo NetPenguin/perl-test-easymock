@@ -2,7 +2,7 @@ package Test::EasyMock::Expectation;
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More; # use eq_array.
 use Scalar::Util qw(refaddr);
 
 sub new {

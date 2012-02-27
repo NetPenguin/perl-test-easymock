@@ -8,7 +8,9 @@ use Scalar::Util qw(refaddr);
 use Test::EasyMock::Expectation;
 use Test::EasyMock::ExpectationSetters;
 use Test::EasyMock::MockObject;
-use Test::More;
+use Test::Builder;
+
+my $tb = Test::Builder->new();
 
 sub create_control {
     my $class = shift;
@@ -48,11 +50,11 @@ sub replay_method_invocation {
                        . Data::Dumper->new(\@args)->Indent(0)->Dump .')';
 
     if ($expectation) {
-	pass('Expected mock method invoked.'.$method_detail);
+	$tb->ok(1, 'Expected mock method invoked.'.$method_detail);
 	return $expectation->retrieve_result();
     }
     else {
-	fail('Unexpected mock method invoked.'.$method_detail);
+	$tb->ok(0, 'Unexpected mock method invoked.'.$method_detail);
 	return;
     }
 }
@@ -98,7 +100,7 @@ sub verify {
     join "\n", map { $_->unsatisfied_message }
               grep { !$_->is_satisfied }
 		   @{$self->{_expectations}};
-  is($unsatisfied_message, '', 'verify mock invocations.');
+  $tb->is_eq($unsatisfied_message, '', 'verify mock invocations.');
 }
 
 1;
