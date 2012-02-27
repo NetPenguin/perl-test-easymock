@@ -2,8 +2,9 @@ package Test::EasyMock::Expectation;
 use strict;
 use warnings;
 
-use Test::More; # use eq_array.
+use Capr qw(croak);
 use Scalar::Util qw(refaddr);
+use Test::More; # use eq_array.
 
 sub new {
     my ($class, $args) = @_;

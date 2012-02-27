@@ -5,10 +5,10 @@ use warnings;
 use Data::Dumper;
 use List::Util qw(first);
 use Scalar::Util qw(refaddr);
+use Test::Builder;
 use Test::EasyMock::Expectation;
 use Test::EasyMock::ExpectationSetters;
 use Test::EasyMock::MockObject;
-use Test::Builder;
 
 my $tb = Test::Builder->new();
 
@@ -20,51 +20,51 @@ sub create_control {
 sub new {
     my ($class, $module) = @_;
     return bless {
-	_module => $module,
+        _module => $module,
     }, $class;
 }
 
 sub create_mock {
     my ($self) = @_;
     return bless {
-	_control => $self,
+        _control => $self,
     }, 'Test::EasyMock::MockObject';
 }
 
 sub process_method_invocation {
     my ($self, $mock, $method, @args) = @_;
     return $self->{_is_replay_mode}
-	? $self->replay_method_invocation($mock, $method, @args)
-	: $self->record_method_invocation($mock, $method, @args);
+        ? $self->replay_method_invocation($mock, $method, @args)
+        : $self->record_method_invocation($mock, $method, @args);
 }
 
 sub replay_method_invocation {
     my ($self, $mock, $method, @args) = @_;
     my $expectation = $self->find_expectation({
-	mock => $mock,
-	method => $method,
-	args => \@args,
+        mock => $mock,
+        method => $method,
+        args => \@args,
     });
 
     my $method_detail = "(method: $method, args: "
                        . Data::Dumper->new(\@args)->Indent(0)->Dump .')';
 
     if ($expectation) {
-	$tb->ok(1, 'Expected mock method invoked.'.$method_detail);
-	return $expectation->retrieve_result();
+        $tb->ok(1, 'Expected mock method invoked.'.$method_detail);
+        return $expectation->retrieve_result();
     }
     else {
-	$tb->ok(0, 'Unexpected mock method invoked.'.$method_detail);
-	return;
+        $tb->ok(0, 'Unexpected mock method invoked.'.$method_detail);
+        return;
     }
 }
 
 sub record_method_invocation {
     my ($self, $mock, $method, @args) = @_;
     return Test::EasyMock::Expectation->new({
-	mock => $mock,
-	method => $method,
-	args => \@args,
+        mock => $mock,
+        method => $method,
+        args => \@args,
     });
 }
 
@@ -99,7 +99,7 @@ sub verify {
   my $unsatisfied_message =
     join "\n", map { $_->unsatisfied_message }
               grep { !$_->is_satisfied }
-		   @{$self->{_expectations}};
+                   @{$self->{_expectations}};
   $tb->is_eq($unsatisfied_message, '', 'verify mock invocations.');
 }
 

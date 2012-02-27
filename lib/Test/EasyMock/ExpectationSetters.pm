@@ -5,7 +5,7 @@ use warnings;
 sub new {
     my ($class, $expectation) = @_;
     return bless {
-	_expectaion => $expectation,
+        _expectaion => $expectation,
     }, $class;
 }
 
