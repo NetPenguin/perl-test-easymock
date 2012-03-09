@@ -2,6 +2,11 @@ package Test::EasyMock::MockControl;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Test::EasyMock::MockControl - Control behavior of the mock object.
+
+=cut
 use Data::Dumper;
 use List::Util qw(first);
 use Scalar::Util qw(refaddr);
@@ -12,11 +17,25 @@ use Test::EasyMock::MockObject;
 
 my $tb = Test::Builder->new();
 
+=head1 CLASS METHODS
+
+=head2 create_control
+
+Create a default control instance.
+
+=cut
 sub create_control {
     my $class = shift;
     return $class->new(@_);
 }
 
+=head1 CONSTRUCTORS
+
+=head2 new($expectation)
+
+Create a instance.
+
+=cut
 sub new {
     my ($class, $module) = @_;
     return bless {
@@ -24,6 +43,13 @@ sub new {
     }, $class;
 }
 
+=head1 INSTANCE METHODS
+
+=head2 create_mock
+
+Create a mock instance.
+
+=cut
 sub create_mock {
     my ($self) = @_;
     return bless {
@@ -31,6 +57,12 @@ sub create_mock {
     }, 'Test::EasyMock::MockObject';
 }
 
+=head2 process_method_invocation($mock, $method, @args)
+
+Process method invocation.
+Dispatch to replay or record method.
+
+=cut
 sub process_method_invocation {
     my ($self, $mock, $method, @args) = @_;
     return $self->{_is_replay_mode}
@@ -38,6 +70,11 @@ sub process_method_invocation {
         : $self->record_method_invocation($mock, $method, @args);
 }
 
+=head2 replay_method_invocation($mock, $method, @args)
+
+Replay the method invocation.
+
+=cut
 sub replay_method_invocation {
     my ($self, $mock, $method, @args) = @_;
     my $expectation = $self->find_expectation({
@@ -59,6 +96,11 @@ sub replay_method_invocation {
     }
 }
 
+=head2 record_method_invocation($mock, $method, @args)
+
+Record the method invocation.
+
+=cut
 sub record_method_invocation {
     my ($self, $mock, $method, @args) = @_;
     return Test::EasyMock::Expectation->new({
@@ -68,6 +110,11 @@ sub record_method_invocation {
     });
 }
 
+=head2 find_expectation($args)
+
+Find the expectation by arguments.
+
+=cut
 sub find_expectation {
     my ($self, $args) = @_;
     my @expectations = grep { $_->matches($args) }
@@ -77,23 +124,43 @@ sub find_expectation {
     return $result || first { $_->has_stub_result } @expectations;
 }
 
+=head2 expect($expectation)
+
+Record the expectation of the mock method invocation.
+
+=cut
 sub expect {
     my ($self, $expectation) = @_;
     push @{$self->{_expectations}}, $expectation;
     return Test::EasyMock::ExpectationSetters->new($expectation);
 }
 
+=head2 replay
+
+Change to I<replay> mode.
+
+=cut
 sub replay {
   my ($self) = @_;
   $self->{_is_replay_mode} = 1;
 }
 
+=head2 reset
+
+Clear expectations and change to I<record> mode.
+
+=cut
 sub reset {
     my ($self) = @_;
     $self->{_is_replay_mode} = 0;
     $self->{_expectations} = [];
 }
 
+=head2 verify
+
+Verify the mock method invocations.
+
+=cut
 sub verify {
   my ($self) = @_;
   my $unsatisfied_message =

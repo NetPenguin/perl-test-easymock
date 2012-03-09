@@ -1,20 +1,7 @@
 package Test::EasyMock;
 use strict;
 use warnings;
-use Carp qw(confess);
-use Exporter qw(import);
-use Scalar::Util qw(blessed);
-use Test::EasyMock::MockControl;
-
-use version; our $VERSION = qv('0.01');
-
-our @EXPORT_OK = qw(
-    create_mock
-    expect
-    replay
-    reset
-    verify
-);
+use version; our $VERSION = qv('0.0.1');
 
 =head1 NAME
 
@@ -60,6 +47,20 @@ Test::EasyMock - A mock library which is usable easily.
 
 This is mock library modeled on 'EasyMock' in Java.
 
+=cut
+use Carp qw(confess);
+use Exporter qw(import);
+use Scalar::Util qw(blessed);
+use Test::EasyMock::MockControl;
+
+our @EXPORT_OK = qw(
+    create_mock
+    expect
+    replay
+    reset
+    verify
+);
+
 =head1 FUNCTIONS
 
 =head2 create_mock([$module_name])
@@ -95,15 +96,15 @@ and a result of the invocation is I<(1, 2, 3)>.
 
 =item and_scalar_return($value)
 
-Set scalar result to the expectation.
+Add scalar result to the expectation.
 
 =item and_array_return(@values)
 
-Set array result to the expectation.
+Add array result to the expectation.
 
 =item and_die([$message])
 
-Set I<die> behavior to the expectation.
+Add I<die> behavior to the expectation.
 
 =item and_stub_scalar_return($value)
 
@@ -173,19 +174,25 @@ __END__
 
 =head1 AUTHOR
 
-ISEKI Keita  C<< <keita.iseki+cpan at gmail.com> >>
+keita iseki C<< <keita.iseki+cpan at gmail.com> >>
 
-=head1 LICENCE
+=head1 LICENCE AND COPYRIGHT
+
+Copyright (c) 2012, keita iseki C<< <keita.iseki+cpan at gmail.com> >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+modify it under the same terms as Perl itself. See L<perlartistic>.
 
 =head1 SEE ALSO
 
-=head2 EasyMock
+=over
+
+=item EasyMock
 
 L<http://easymock.org/>
 
 It is a very wonderful library for the Java of a mock object.
+
+=back
 
 =cut

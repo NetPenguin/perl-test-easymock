@@ -1,0 +1,22 @@
+---
+abstract: "[One line description of module's purpose here]"
+author:
+  - 'keita iseki <keita.iseki+cpan@gmail.com>'
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3613'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Test-EasyMock
+provides:
+  Test::EasyMock:
+    file: lib/Test/EasyMock.pm
+    version: v0.0.1
+requires:
+  Test::More: 0
+  version: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: v0.0.1

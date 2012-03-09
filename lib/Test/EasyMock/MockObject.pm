@@ -2,6 +2,19 @@ package Test::EasyMock::MockObject;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Test::EasyMock::MockObject - Mock object.
+
+=cut
+
+=head1 METHOD
+
+=head2 isa($module)
+
+Mock to I<isa> method.
+    
+=cut
 # Override
 sub isa {
     # TODO: expect 時の引数に eq や not(eq(...)) を使えるようになり次第
@@ -15,6 +28,11 @@ sub isa {
     return $module eq $self_module;
 }
 
+=head2 AUTOLOAD
+
+Mock to any method.
+    
+=cut
 sub AUTOLOAD {
     our $AUTOLOAD;
     my $self = shift;

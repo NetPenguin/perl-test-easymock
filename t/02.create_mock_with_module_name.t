@@ -1,9 +1,6 @@
 use strict;
 use warnings;
 
-use FindBin;
-use lib "$FindBin::Bin/../../../../lib";
-
 use Test::More;
 
 my $class;
@@ -39,4 +36,4 @@ subtest 'Specify module name.' => sub {
 };
 
 # ----
-::done_testing();
+::done_testing;

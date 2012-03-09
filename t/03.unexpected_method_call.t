@@ -1,9 +1,6 @@
 use strict;
 use warnings;
 
-use FindBin;
-use lib "$FindBin::Bin/../../../../lib";
-
 use Test::Tester;
 use Test::More;
 use List::MoreUtils qw(any all);
