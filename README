@@ -1,4 +1,4 @@
-Test-EasyMock version 0.0.1
+Test-EasyMock version 0.01
 
 Test::EasyMock is a mock library modeled on 'EasyMock' in Java.
 
@@ -10,14 +10,6 @@ To install this module, run the following commands:
 	make
 	make test
 	make install
-
-Alternatively, to install with Module::Build, you can use the following commands:
-
-	perl Build.PL
-	./Build
-	./Build test
-	./Build install
-
 
 COPYRIGHT AND LICENCE
 

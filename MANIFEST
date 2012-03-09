@@ -1,13 +1,11 @@
-Build.PL
 Changes
-ignore.txt
 lib/Test/EasyMock.pm
 lib/Test/EasyMock/Expectation.pm
 lib/Test/EasyMock/ExpectationSetters.pm
 lib/Test/EasyMock/MockControl.pm
 lib/Test/EasyMock/MockObject.pm
 Makefile.PL
-MANIFEST			This list of files
+MANIFEST
 META.yml
 README
 t/00.load.t

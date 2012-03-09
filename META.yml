@@ -13,10 +13,10 @@ name: Test-EasyMock
 provides:
   Test::EasyMock:
     file: lib/Test/EasyMock.pm
-    version: v0.0.1
+    version: 0.01
 requires:
   Test::More: 0
   version: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: v0.0.1
+version: 0.01

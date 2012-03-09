@@ -1,7 +1,7 @@
 package Test::EasyMock;
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.0.1');
+use version; our $VERSION = '0.01';
 
 =head1 NAME
 
