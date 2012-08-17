@@ -13,7 +13,7 @@ name: Test-EasyMock
 provides:
   Test::EasyMock:
     file: lib/Test/EasyMock.pm
-    version: 0.01
+    version: 0.02
 requires:
   Test::More: 0
   version: 0

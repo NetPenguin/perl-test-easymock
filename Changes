@@ -1,4 +1,10 @@
 Revision history for Test-EasyMock
 
-0.01 Sat Mar 10 04:43:07 2012
-     Initial release.
+0.02 -- Fri Aug 17 15:51:19 JST 2012
+
+  * Support mock part of an object.
+
+0.01 -- Sat Mar 10 04:43:07 JST 2012
+
+  * Initial release.
+

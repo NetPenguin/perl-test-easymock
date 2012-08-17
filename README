@@ -1,4 +1,4 @@
-Test-EasyMock version 0.01
+Test-EasyMock version 0.02
 
 Test::EasyMock is a mock library modeled on 'EasyMock' in Java.
 

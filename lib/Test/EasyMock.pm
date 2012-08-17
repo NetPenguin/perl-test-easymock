@@ -1,7 +1,7 @@
 package Test::EasyMock;
 use strict;
 use warnings;
-use version; our $VERSION = '0.01';
+use version; our $VERSION = '0.02';
 
 =head1 NAME
 
@@ -63,7 +63,7 @@ our @EXPORT_OK = qw(
 
 =head1 FUNCTIONS
 
-=head2 create_mock([$module_name])
+=head2 create_mock([$module_name|$object])
 
 Creates a mock object.
 If specified the I<$module_name> then a I<isa($module_name)> method of the mock object returns true.

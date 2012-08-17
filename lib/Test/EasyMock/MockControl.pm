@@ -9,7 +9,7 @@ Test::EasyMock::MockControl - Control behavior of the mock object.
 =cut
 use Data::Dumper;
 use List::Util qw(first);
-use Scalar::Util qw(refaddr);
+use Scalar::Util qw(blessed refaddr);
 use Test::Builder;
 use Test::EasyMock::Expectation;
 use Test::EasyMock::ExpectationSetters;
@@ -37,9 +37,11 @@ Create a instance.
 
 =cut
 sub new {
-    my ($class, $module) = @_;
+    my ($class, $module_or_object) = @_;
+    my $blessed = blessed $module_or_object;
     return bless {
-        _module => $module,
+        _module => $blessed || $module_or_object,
+        _object => $blessed && $module_or_object,
     }, $class;
 }
 
@@ -82,6 +84,7 @@ sub replay_method_invocation {
         method => $method,
         args => \@args,
     });
+    my $object = $self->{_object};
 
     my $method_detail = "(method: $method, args: "
                        . Data::Dumper->new(\@args)->Indent(0)->Dump .')';
@@ -89,6 +92,9 @@ sub replay_method_invocation {
     if ($expectation) {
         $tb->ok(1, 'Expected mock method invoked.'.$method_detail);
         return $expectation->retrieve_result();
+    }
+    elsif ($object && $object->can($method)) {
+        return $object->$method(@args);
     }
     else {
         $tb->ok(0, 'Unexpected mock method invoked.'.$method_detail);
