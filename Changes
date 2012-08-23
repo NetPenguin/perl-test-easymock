@@ -1,5 +1,9 @@
 Revision history for Test-EasyMock
 
+0.03 -- Thu Aug 23 20:50:35 JST 2012
+
+  * Support mock to 'can' method. 
+
 0.02 -- Fri Aug 17 15:51:19 JST 2012
 
   * Support mock part of an object.
