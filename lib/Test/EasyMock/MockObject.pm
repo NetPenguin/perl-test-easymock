@@ -28,6 +28,16 @@ sub isa {
     return $module eq $self_module;
 }
 
+=head2 can($method)
+
+Mock to I<can> method.
+
+=cut
+sub can {
+    my $self = shift;
+    return $self->{_control}->process_method_invocation($self, 'can', @_);
+}
+
 =head2 AUTOLOAD
 
 Mock to any method.
