@@ -2,6 +2,8 @@ Revision history for Perl extension Test-EasyMock
 
 {{$NEXT}}
 
+0.04 2013-06-17T21:57:35Z
+
   * Use minilla for authoring.
 
 0.03 -- Thu Aug 23 20:50:35 JST 2012
