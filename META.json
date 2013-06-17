@@ -1,7 +1,7 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "A mock library which is usable easily.",
    "author" : [
-      "keita.iseki <keita.iseki@gmail.com>"
+      "keita iseki C<< <keita.iseki+cpan at gmail.com> >>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v0.5.3, CPAN::Meta::Converter version 2.120921",
@@ -42,15 +42,41 @@
       },
       "runtime" : {
          "requires" : {
-            "perl" : "5.008005"
+            "Carp" : "0",
+            "Data::Dumper" : "0",
+            "Exporter" : "0",
+            "List::MoreUtils" : "0",
+            "List::Util" : "0",
+            "Scalar::Util" : "0",
+            "Test::Builder" : "0.98",
+            "Test::More" : "0.98",
+            "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.98"
+            "Test::More" : "0.98",
+            "Test::Perl::Critic" : "1.02",
+            "Test::Pod" : "1.14",
+            "Test::Pod::Coverage" : "1.04",
+            "Test::Tester" : "0.108"
          }
       }
    },
    "release_status" : "unstable",
-   "version" : "0.01"
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/NetPenguin/perl-test-easymock/issues"
+      },
+      "homepage" : "https://github.com/NetPenguin/perl-test-easymock",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/NetPenguin/perl-test-easymock.git",
+         "web" : "https://github.com/NetPenguin/perl-test-easymock"
+      }
+   },
+   "version" : "0.04",
+   "x_contributors" : [
+      "keita.iseki <keita.iseki@gmail.com>"
+   ]
 }

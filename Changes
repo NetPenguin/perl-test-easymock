@@ -2,6 +2,10 @@ Revision history for Perl extension Test-EasyMock
 
 {{$NEXT}}
 
+0.04 -- Mon Jun 17 23:08:33 JST 2013
+
+  * Use minilla for authoring.
+
 0.03 -- Thu Aug 23 20:50:35 JST 2012
 
   * Support mock to 'can' method. 
