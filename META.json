@@ -75,7 +75,7 @@
          "web" : "https://github.com/NetPenguin/perl-test-easymock"
       }
    },
-   "version" : "0.04",
+   "version" : "0.05",
    "x_contributors" : [
       "keita.iseki <keita.iseki@gmail.com>"
    ]
