@@ -1,18 +1,25 @@
-requires 'perl', '5.008001';
-
-requires 'Carp';
-requires 'Data::Dumper';
-requires 'Exporter';
+requires 'Data::Util';
 requires 'List::Util';
-requires 'List::MoreUtils';
 requires 'Scalar::Util';
-requires 'Test::Builder'   => '0.98';
-requires 'Test::More'      => '0.98';
+requires 'Test::Builder';
+requires 'Test::Deep::NoTest';
+requires 'version';
 
-on 'test' => sub {
-    requires 'Test::More'          => '0.98';
-    requires 'Test::Tester'        => '0.108';
-    requires 'Test::Perl::Critic'  => '1.02';
-    requires 'Test::Pod'           => '1.14';
-    requires 'Test::Pod::Coverage' => '1.04';
+on configure => sub {
+    requires 'CPAN::Meta';
+    requires 'CPAN::Meta::Prereqs';
+    requires 'Module::Build';
+    requires 'perl', '5.008_001';
+};
+
+on test => sub {
+    requires 'List::MoreUtils';
+    requires 'Test::More';
+    requires 'Test::Tester';
+};
+
+on develop => sub {
+    requires 'Test::Perl::Critic';
+    requires 'Test::Pod';
+    requires 'Test::Pod::Coverage';
 };

@@ -8,9 +8,11 @@ Test::EasyMock::MockControl - Control behavior of the mock object.
 
 =cut
 use Data::Dumper;
+use Data::Util qw(is_instance);
 use List::Util qw(first);
 use Scalar::Util qw(blessed refaddr);
 use Test::Builder;
+use Test::EasyMock::ArgumentsMatcher;
 use Test::EasyMock::Expectation;
 use Test::EasyMock::ExpectationSetters;
 use Test::EasyMock::MockObject;
@@ -112,7 +114,9 @@ sub record_method_invocation {
     return Test::EasyMock::Expectation->new({
         mock => $mock,
         method => $method,
-        args => \@args,
+        args => is_instance($args[0], 'Test::EasyMock::ArgumentsMatcher')
+            ? $args[0]
+            : Test::EasyMock::ArgumentsMatcher->new(\@args),
     });
 }
 

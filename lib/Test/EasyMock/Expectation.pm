@@ -9,7 +9,6 @@ Test::EasyMock::Expectation - A expected behavior object.
 =cut
 use Carp qw(croak);
 use Scalar::Util qw(refaddr);
-use Test::More; # use eq_array.
 
 =head1 CONSTRUCTORS
 
@@ -115,7 +114,7 @@ sub matches {
     my ($self, $args) = @_;
     return refaddr($self->{_mock}) == refaddr($args->{mock})
         && $self->{_method} eq $args->{method}
-        && eq_array($self->{_args}, $args->{args});
+        && $self->{_args}->matches($args->{args});
 }
 
 =head2 is_satisfied()
