@@ -114,7 +114,7 @@ sub matches {
     my ($self, $args) = @_;
     return refaddr($self->{_mock}) == refaddr($args->{mock})
         && $self->{_method} eq $args->{method}
-        && $self->{_args}->matches(@{$args->{args}});
+        && $self->{_args}->matches($args->{args});
 }
 
 =head2 is_satisfied()

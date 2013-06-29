@@ -201,7 +201,8 @@ The matcher considers that the whole argument is array ref.
 
 =cut
 sub whole {
-    return Test::EasyMock::ArgumentsMatcher->new(@_);
+    my ($args) = @_;
+    return Test::EasyMock::ArgumentsMatcher->new($args);
 }
 
 sub __delegate {

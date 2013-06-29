@@ -114,7 +114,9 @@ sub record_method_invocation {
     return Test::EasyMock::Expectation->new({
         mock => $mock,
         method => $method,
-        args => Test::EasyMock::ArgumentsMatcher->new(@args),
+        args => is_instance($args[0], 'Test::EasyMock::ArgumentsMatcher')
+            ? $args[0]
+            : Test::EasyMock::ArgumentsMatcher->new(\@args),
     });
 }
 
