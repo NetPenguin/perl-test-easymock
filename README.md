@@ -41,6 +41,38 @@ Test::EasyMock - A mock library which is usable easily.
     $mock->foo(1); # Unexpected method call.(A test is failed)
     verify($mock);
 
+Using `Test::Deep`'s special comparisons.
+
+    use Test::EasyMock qw(
+        create_mock
+        expect
+        replay
+        verify
+        reset
+        whole
+    );
+    use Test::Deep qw(
+        ignore
+    );
+    
+
+    my $mock = create_mock();
+    expect($mock->foo(1, ignore())->and_scalar_return('a');
+    expect($mock->foo({ value => 1, random => ignore() })->and_scalar_return('b');
+    replay($mock);
+    $mock->foo(1, 1234); # return 'a'
+    $mock->foo({ value => 1, random => 1234 }); # return 'b'
+    verify($mock);
+    
+
+    reset($mock);
+    expect($mock->foo(whole(ignore())))->and_stub_scalar_return('a');
+    replay($mock);
+    $mock->foo(); # return 'a'
+    $mock->foo(1, 2, 3); # return 'a'
+    $mock->foo({ arg1 => 1, arg2 => 2 }); # return 'a'
+    verify($mock);
+
 # DESCRIPTION
 
 This is mock library modeled on 'EasyMock' in Java.
@@ -108,6 +140,18 @@ Verify the mock method invocations.
 
 Reset the mock.
 
+## whole($arguments)
+
+It is a kind of an argument matcher.
+The matcher considers that the whole argument is array ref.
+
+    # same as `expect($mock->foo(1, 2))`
+    expect($mock->foo( whole([1, 2]) ));
+    
+
+    # matches any arguments. (eg. foo(), foo(1,2), foo({}), etc...)
+    expect($mock->foo( whole(ignore()) ));
+
 # AUTHOR
 
 keita iseki `<keita.iseki+cpan at gmail.com>`
@@ -126,3 +170,7 @@ modify it under the same terms as Perl itself. See [perlartistic](http://search.
     [http://easymock.org/](http://easymock.org/)
 
     It is a very wonderful library for the Java of a mock object.
+
+- Test::Deep
+
+    [http://search.cpan.org/~rjbs/Test-Deep-0.110/lib/Test/Deep.pm](http://search.cpan.org/~rjbs/Test-Deep-0.110/lib/Test/Deep.pm)

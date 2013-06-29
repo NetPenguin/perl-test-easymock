@@ -43,6 +43,36 @@ Test::EasyMock - A mock library which is usable easily.
     $mock->foo(1); # Unexpected method call.(A test is failed)
     verify($mock);
 
+Using C<Test::Deep>'s special comparisons.
+
+    use Test::EasyMock qw(
+        create_mock
+        expect
+        replay
+        verify
+        reset
+        whole
+    );
+    use Test::Deep qw(
+        ignore
+    );
+    
+    my $mock = create_mock();
+    expect($mock->foo(1, ignore())->and_scalar_return('a');
+    expect($mock->foo({ value => 1, random => ignore() })->and_scalar_return('b');
+    replay($mock);
+    $mock->foo(1, 1234); # return 'a'
+    $mock->foo({ value => 1, random => 1234 }); # return 'b'
+    verify($mock);
+    
+    reset($mock);
+    expect($mock->foo(whole(ignore())))->and_stub_scalar_return('a');
+    replay($mock);
+    $mock->foo(); # return 'a'
+    $mock->foo(1, 2, 3); # return 'a'
+    $mock->foo({ arg1 => 1, arg2 => 2 }); # return 'a'
+    verify($mock);
+
 =head1 DESCRIPTION
 
 This is mock library modeled on 'EasyMock' in Java.
@@ -51,6 +81,7 @@ This is mock library modeled on 'EasyMock' in Java.
 use Carp qw(confess);
 use Exporter qw(import);
 use Scalar::Util qw(blessed);
+use Test::EasyMock::ArgumentsMatcher;
 use Test::EasyMock::MockControl;
 
 our @EXPORT_OK = qw(
@@ -59,7 +90,9 @@ our @EXPORT_OK = qw(
     replay
     reset
     verify
+    whole
 );
+our %EXPORT_TAGS = (all => [@EXPORT_OK]);
 
 =head1 FUNCTIONS
 
@@ -155,6 +188,22 @@ sub reset {
     __delegate(reset => $_) for @_;
 }
 
+=head2 whole($arguments)
+
+It is a kind of an argument matcher.
+The matcher considers that the whole argument is array ref.
+
+  # same as `expect($mock->foo(1, 2))`
+  expect($mock->foo( whole([1, 2]) ));
+  
+  # matches any arguments. (eg. foo(), foo(1,2), foo({}), etc...)
+  expect($mock->foo( whole(ignore()) ));
+
+=cut
+sub whole {
+    return Test::EasyMock::ArgumentsMatcher->new(@_);
+}
+
 sub __delegate {
     my ($method, $mock, @args) = @_;
     my $control = __control_of($mock)
@@ -192,6 +241,10 @@ modify it under the same terms as Perl itself. See L<perlartistic>.
 L<http://easymock.org/>
 
 It is a very wonderful library for the Java of a mock object.
+
+=item Test::Deep
+
+L<http://search.cpan.org/~rjbs/Test-Deep-0.110/lib/Test/Deep.pm>
 
 =back
 

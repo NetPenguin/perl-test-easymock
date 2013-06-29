@@ -12,8 +12,10 @@ BEGIN {
                      replay
                      reset
                      verify
+                     whole
                   });
 }
+use Test::Deep qw(ignore);
 
 # ----
 # Helper.
@@ -46,6 +48,27 @@ subtest 'default mock' => sub {
     my $actual = $mock->foo($args);
 
     is_deeply($actual, $result, 'result');
+    verify($mock);
+  };
+
+  reset($mock);
+
+  subtest 'with Test::Deep comparison parameter' => sub {
+    my $result1 = 'a result of first.';
+    my $result2 = 'a result of sencond.';
+    my $result3 = 'a result of third.';
+    expect($mock->foo( ignore(), ignore() ))->and_scalar_return($result1);
+    expect($mock->foo( ignore() ))->and_scalar_return($result2);
+    expect($mock->foo( whole(ignore()) ))->and_scalar_return($result3);
+    replay($mock);
+
+    my $actual1 = $mock->foo(1, 2);
+    my $actual2 = $mock->foo({ arg1 => 1, arg2 => 2 });
+    my $actual3 = $mock->foo(1, 2, 3);
+
+    is($actual1, $result1, 'result1');
+    is($actual2, $result2, 'result2');
+    is($actual3, $result3, 'result3');
     verify($mock);
   };
 
