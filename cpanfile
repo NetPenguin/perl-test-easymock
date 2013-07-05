@@ -1,3 +1,4 @@
+requires 'Data::Dump';
 requires 'Data::Util';
 requires 'List::Util';
 requires 'Scalar::Util';

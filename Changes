@@ -2,6 +2,8 @@ Revision history for Perl extension Test-EasyMock
 
 {{$NEXT}}
 
+  * Use Data::Dump instead of Data::Dumper.
+
 0.06 2013-06-29T11:20:47Z
 
   * Add arguments matcher feature.

@@ -4,7 +4,7 @@
       "keita iseki C<< <keita.iseki+cpan at gmail.com> >>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.5.3, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Minilla/v0.5.5, CPAN::Meta::Converter version 2.131560",
    "license" : [
       "perl_5"
    ],
@@ -45,6 +45,7 @@
       },
       "runtime" : {
          "requires" : {
+            "Data::Dump" : "0",
             "Data::Util" : "0",
             "List::Util" : "0",
             "Scalar::Util" : "0",
@@ -75,6 +76,6 @@
    },
    "version" : "0.06",
    "x_contributors" : [
-      "NetPenguin <keita.iseki@gmail.com>"
+      "keita.iseki <keita.iseki@gmail.com>"
    ]
 }

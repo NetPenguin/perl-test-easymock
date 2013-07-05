@@ -7,7 +7,7 @@ use warnings;
 Test::EasyMock::MockControl - Control behavior of the mock object.
 
 =cut
-use Data::Dumper;
+use Data::Dump qw(pp);
 use Data::Util qw(is_instance);
 use List::Util qw(first);
 use Scalar::Util qw(blessed refaddr);
@@ -88,8 +88,7 @@ sub replay_method_invocation {
     });
     my $object = $self->{_object};
 
-    my $method_detail = "(method: $method, args: "
-                       . Data::Dumper->new(\@args)->Indent(0)->Dump .')';
+    my $method_detail = "(method: $method, args: " . pp(@args) . ')';
 
     if ($expectation) {
         $tb->ok(1, 'Expected mock method invoked.'.$method_detail);
