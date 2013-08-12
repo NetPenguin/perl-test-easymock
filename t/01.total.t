@@ -2,36 +2,34 @@ use strict;
 use warnings;
 
 use Test::More;
-
-my $class;
 BEGIN {
-  $class = use_ok('Test::EasyMock',
-                  qw{
-                     create_mock
-                     expect
-                     replay
-                     reset
-                     verify
-                     whole
-                  });
+  use_ok('Test::EasyMock',
+         qw{
+             create_mock
+             expect
+             replay
+             reset
+             verify
+             whole
+         });
+  use_ok('Test::EasyMock::Class',
+         qw{
+             create_class_mock
+         });
 }
 use Test::Deep qw(ignore);
 
 # ----
 # Helper.
-
-# ----
-# Tests.
-subtest 'default mock' => sub {
-  my $mock = create_mock();
-
+sub __suite {
+  my ($mock, $target) = @_;
   subtest 'array arguments and array result' => sub {
     my @args = qw(arg1 arg2 arg3);
     my @result = qw(result1 result2 result3);
     expect($mock->foo(@args))->and_array_return(@result);
     replay($mock);
 
-    my @actual = $mock->foo(@args);
+    my @actual = $target->foo(@args);
 
     is_deeply(\@actual, \@result, 'result');
     verify($mock);
@@ -45,7 +43,7 @@ subtest 'default mock' => sub {
     expect($mock->foo($args))->and_scalar_return($result);
     replay($mock);
 
-    my $actual = $mock->foo($args);
+    my $actual = $target->foo($args);
 
     is_deeply($actual, $result, 'result');
     verify($mock);
@@ -62,9 +60,9 @@ subtest 'default mock' => sub {
     expect($mock->foo( whole(ignore()) ))->and_scalar_return($result3);
     replay($mock);
 
-    my $actual1 = $mock->foo(1, 2);
-    my $actual2 = $mock->foo({ arg1 => 1, arg2 => 2 });
-    my $actual3 = $mock->foo(1, 2, 3);
+    my $actual1 = $target->foo(1, 2);
+    my $actual2 = $target->foo({ arg1 => 1, arg2 => 2 });
+    my $actual3 = $target->foo(1, 2, 3);
 
     is($actual1, $result1, 'result1');
     is($actual2, $result2, 'result2');
@@ -83,8 +81,8 @@ subtest 'default mock' => sub {
     expect($mock->foo($args))->and_scalar_return($result2);
     replay($mock);
 
-    my $actual1 = $mock->foo($args);
-    my $actual2 = $mock->foo($args);
+    my $actual1 = $target->foo($args);
+    my $actual2 = $target->foo($args);
 
     is($actual1, $result1, 'result1');
     is($actual2, $result2, 'result2');
@@ -103,8 +101,8 @@ subtest 'default mock' => sub {
     expect($mock->foo($args2))->and_scalar_return($result2);
     replay($mock);
 
-    my $actual2 = $mock->foo($args2);
-    my $actual1 = $mock->foo($args1);
+    my $actual2 = $target->foo($args2);
+    my $actual1 = $target->foo($args1);
 
     is($actual1, $result1, 'result1');
     is($actual2, $result2, 'result2');
@@ -122,8 +120,8 @@ subtest 'default mock' => sub {
     expect($mock->bar($args))->and_scalar_return($result2);
     replay($mock);
 
-    my $actual2 = $mock->bar($args);
-    my $actual1 = $mock->foo($args);
+    my $actual2 = $target->bar($args);
+    my $actual1 = $target->foo($args);
 
     is($actual1, $result1, 'result1');
     is($actual2, $result2, 'result2');
@@ -144,9 +142,9 @@ subtest 'default mock' => sub {
       ->and_scalar_return($result3);
     replay($mock);
 
-    my $actual1 = $mock->foo($args);
-    my @actual2 = $mock->foo($args);
-    my $actual3 = $mock->foo($args);
+    my $actual1 = $target->foo($args);
+    my @actual2 = $target->foo($args);
+    my $actual3 = $target->foo($args);
 
     is($actual1, $result1, 'result1');
     is_deeply(\@actual2, \@result2, 'result2');
@@ -168,10 +166,10 @@ subtest 'default mock' => sub {
     expect($mock->foo($args2))->and_stub_scalar_return($result2);
     replay($mock);
 
-    my $actual1_1 = $mock->foo($args1);
-    my $actual1_2 = $mock->foo($args1);
-    my $actual1_3 = $mock->foo($args1);
-    my $actual2 = $mock->foo($args2);
+    my $actual1_1 = $target->foo($args1);
+    my $actual1_2 = $target->foo($args1);
+    my $actual1_3 = $target->foo($args1);
+    my $actual2   = $target->foo($args2);
 
     is($actual1_1, $result1_1, 'result1_1');
     is($actual1_2, $result1_2, 'result1_2');
@@ -183,13 +181,24 @@ subtest 'default mock' => sub {
 
   reset($mock);
 
-  subtest 'expec with `stub_scalar_return`, but no call mock method.' => sub {
+  subtest 'expect with `stub_scalar_return`, but no call mock method.' => sub {
     expect($mock->foo())->and_stub_scalar_return('');
     replay($mock);
     verify($mock); # pass
   };
+}
+
+# ----
+# Tests.
+subtest 'default mock' => sub {
+  my $mock = create_mock();
+  __suite($mock, $mock);
 };
 
+# subtest 'mock class' => sub {
+#   my $mock = create_class_mock('Foo');
+#   __suite($mock, 'Foo');
+# };
 
 # ----
 ::done_testing;
