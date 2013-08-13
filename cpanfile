@@ -1,3 +1,4 @@
+requires 'Carp';
 requires 'Data::Dump';
 requires 'Data::Util';
 requires 'List::Util';
@@ -15,6 +16,7 @@ on configure => sub {
 
 on test => sub {
     requires 'List::MoreUtils';
+    requires 'Test::Deep';
     requires 'Test::More';
     requires 'Test::Tester';
 };
@@ -23,4 +25,5 @@ on develop => sub {
     requires 'Test::Perl::Critic';
     requires 'Test::Pod';
     requires 'Test::Pod::Coverage';
+    requires 'Minilla';
 };
