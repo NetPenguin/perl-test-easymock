@@ -1,9 +1,8 @@
 use strict;
 use warnings;
 
-use Test::Tester;
+use t::Util qw(expect_fail expect_pass);
 use Test::More;
-use List::MoreUtils qw(any all);
 
 my $class;
 BEGIN {
@@ -15,21 +14,6 @@ BEGIN {
                      reset
                      verify
                   });
-}
-
-# ----
-# Helpers.
-sub expect_fail(&;$) {
-  my ($code, $name) = @_;
-  my ($premature, @results) = run_tests($code);
-  ok((any { !$_->{ok} } @results),
-     'expect_fail' . (defined $name ? " - $name" : ''));
-}
-sub expect_pass(&;$) {
-  my ($code, $name) = @_;
-  my ($premature, @results) = run_tests($code);
-  ok((all { $_->{ok} } @results),
-     'expect_pass' . (defined $name ? " - $name" : ''));
 }
 
 # ----

@@ -1,9 +1,8 @@
 use strict;
 use warnings;
 
-use Test::Tester;
+use t::Util qw(expect_fail);
 use Test::More;
-use List::MoreUtils qw(any all);
 
 my $class;
 BEGIN {
@@ -14,15 +13,6 @@ BEGIN {
                      replay
                      verify
                   });
-}
-
-# ----
-# Helper.
-sub expect_fail(&;$) {
-  my ($code, $name) = @_;
-  my ($premature, @results) = run_tests($code);
-  ok((any { !$_->{ok} } @results),
-     'expect_fail' . (defined $name ? " - $name" : ''));
 }
 
 # ----
