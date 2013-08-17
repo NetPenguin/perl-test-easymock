@@ -107,7 +107,7 @@ sub create_mock {
     return $control->create_mock;
 }
 
-=head2 expect($expectation)
+=head2 expect(<a mock method call>)
 
 Record a method invocation and behavior.
 
@@ -155,8 +155,7 @@ Set I<die> behavior as as stub to the expectation.
 
 =cut
 sub expect {
-    my ($expectation) = @_;
-    return __delegate(expect => ($expectation->mock, $expectation));
+    return __delegate(expect => @_);
 }
 
 =head2 replay($mock [, $mock2 ...])
