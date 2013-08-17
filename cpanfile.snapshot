@@ -1112,6 +1112,14 @@ DISTRIBUTIONS
       overload 0
       strict 0
       warnings 0
+  Test-MockModule-0.05
+    pathname: S/SI/SIMONFLK/Test-MockModule-0.05.tar.gz
+    provides:
+      Test::MockModule 0.05
+    requirements:
+      ExtUtils::MakeMaker 0
+      Scalar::Util 0
+      Test::More 0.45
   Test-NoWarnings-1.04
     pathname: A/AD/ADAMK/Test-NoWarnings-1.04.tar.gz
     provides:

@@ -19,8 +19,9 @@ Test::EasyMock::Class - support class method mocking.
     verify($mock); # verify all expectations is invoked.
 
 =cut
-use Carp qw(croak);
+use Carp;
 use Exporter qw(import);
+use Test::EasyMock::MockControl::Class;
 
 our @EXPORT_OK = qw(
     create_class_mock
@@ -35,10 +36,8 @@ Creates a mock object for class.
 
 =cut
 sub create_class_mock {
-    my ($class) = @_;
-    croak('`$class` argument is required.') unless $class;
-
-    # TODO:
+    my $control = Test::EasyMock::MockControl::Class->create_control(@_);
+    return $control->create_mock;
 }
 
 1;
