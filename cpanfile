@@ -17,7 +17,6 @@ on test => sub {
     requires 'List::MoreUtils';
     requires 'Test::More';
     requires 'Test::Tester';
-    requires 'Test::LeakTrace';
 };
 
 on develop => sub {
