@@ -2,38 +2,33 @@ use strict;
 use warnings;
 
 use Test::More;
-
-my $class;
 BEGIN {
-  $class = use_ok('Test::EasyMock',
-                  qw{
-                     create_mock
-                     expect
-                     replay
-                     reset
-                     verify
-                  });
+    use_ok('Test::EasyMock',
+           qw{
+               create_mock
+               expect
+               replay
+               reset
+               verify
+           });
 }
-
-# ----
-# Helper.
 
 # ----
 # Tests.
 subtest 'Omit module name.' => sub {
-  my $mock = create_mock();
-  ok(!$mock->isa('Foo::Bar::Baz'));
+    my $mock = create_mock();
+    ok(!$mock->isa('Foo::Bar::Baz'));
 };
 
 subtest 'Specify module name.' => sub {
-  my $mock = create_mock('Foo::Bar::Baz');
-  ok($mock->isa('Foo::Bar::Baz'));
-  ok(!$mock->isa('Unknown'));
+    my $mock = create_mock('Foo::Bar::Baz');
+    ok($mock->isa('Foo::Bar::Baz'));
+    ok(!$mock->isa('Unknown'));
 
-  reset($mock);
+    reset($mock);
 
-  ok($mock->isa('Foo::Bar::Baz'));
+    ok($mock->isa('Foo::Bar::Baz'));
 };
 
 # ----
-::done_testing;
+done_testing;

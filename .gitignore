@@ -4,6 +4,7 @@
 /blib
 
 /carton.lock
+/cpanfile.snapshot
 /.carton/
 /local/
 
