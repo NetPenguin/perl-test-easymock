@@ -14,11 +14,11 @@ BEGIN {
            });
 }
 use Test::Deep qw(ignore);
-use Test::LeakTrace;
+use Scalar::Util qw(weaken);
 
 # ----
 # Tests.
-subtest 'default mock' => sub { no_leaks_ok {
+subtest 'default mock' => sub {
     my $mock = create_mock();
 
     subtest 'array arguments and array result' => sub {
@@ -184,7 +184,14 @@ subtest 'default mock' => sub { no_leaks_ok {
         replay($mock);
         verify($mock);          # pass
     };
-} 'no memory leaks'; };
+
+    subtest 'destroy mock object' => sub {
+        my $weak_ref_mock = $mock;
+        weaken($weak_ref_mock);
+        undef($mock);
+        is($weak_ref_mock, undef, 'mock is destroied.');
+    };
+};
 
 
 # ----
