@@ -1,28 +1,16 @@
 use strict;
 use warnings;
 
-use Test::Tester;
+use t::Util qw(expect_fail);
 use Test::More;
-use List::MoreUtils qw(any all);
-
-my $class;
 BEGIN {
-  $class = use_ok('Test::EasyMock',
-                  qw{
-                     create_mock
-                     expect
-                     replay
-                     verify
-                  });
-}
-
-# ----
-# Helper.
-sub expect_fail(&;$) {
-  my ($code, $name) = @_;
-  my ($premature, @results) = run_tests($code);
-  ok((any { !$_->{ok} } @results),
-     'expect_fail' . (defined $name ? " - $name" : ''));
+    use_ok('Test::EasyMock',
+           qw{
+               create_mock
+               expect
+               replay
+               verify
+           });
 }
 
 # ----
@@ -48,4 +36,4 @@ subtest 'mock to can method' => sub {
 };
 
 # ----
-::done_testing;
+done_testing;

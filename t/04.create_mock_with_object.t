@@ -2,17 +2,15 @@ use strict;
 use warnings;
 
 use Test::More;
-
-my $class;
 BEGIN {
-  $class = use_ok('Test::EasyMock',
-                  qw{
-                     create_mock
-                     expect
-                     replay
-                     reset
-                     verify
-                  });
+    use_ok('Test::EasyMock',
+           qw{
+               create_mock
+               expect
+               replay
+               reset
+               verify
+           });
 }
 
 # ----
@@ -51,4 +49,4 @@ subtest 'Specify object.' => sub {
 };
 
 # ----
-::done_testing;
+done_testing;
