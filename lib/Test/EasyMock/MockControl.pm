@@ -10,7 +10,7 @@ Test::EasyMock::MockControl - Control behavior of the mock object.
 use Data::Dump qw(pp);
 use Data::Util qw(is_instance);
 use List::Util qw(first);
-use Scalar::Util qw(blessed refaddr);
+use Scalar::Util qw(blessed);
 use Test::Builder;
 use Test::EasyMock::ArgumentsMatcher;
 use Test::EasyMock::Expectation;
@@ -33,7 +33,7 @@ sub create_control {
 
 =head1 CONSTRUCTORS
 
-=head2 new($expectation)
+=head2 new([$module|$object])
 
 Create a instance.
 
@@ -110,13 +110,13 @@ Record the method invocation.
 =cut
 sub record_method_invocation {
     my ($self, $mock, $method, @args) = @_;
-    return Test::EasyMock::Expectation->new({
-        mock => $mock,
+    my $expectation = Test::EasyMock::Expectation->new({
         method => $method,
         args => is_instance($args[0], 'Test::EasyMock::ArgumentsMatcher')
             ? $args[0]
             : Test::EasyMock::ArgumentsMatcher->new(\@args),
     });
+    return ($mock, $expectation);
 }
 
 =head2 find_expectation($args)

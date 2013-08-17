@@ -14,6 +14,7 @@ BEGIN {
            });
 }
 use Test::Deep qw(ignore);
+use Scalar::Util qw(weaken);
 
 # ----
 # Tests.
@@ -182,6 +183,13 @@ subtest 'default mock' => sub {
         expect($mock->foo())->and_stub_scalar_return('');
         replay($mock);
         verify($mock);          # pass
+    };
+
+    subtest 'destroy mock object' => sub {
+        my $weak_ref_mock = $mock;
+        weaken($weak_ref_mock);
+        undef($mock);
+        is($weak_ref_mock, undef, 'mock is destroied.');
     };
 };
 

@@ -8,11 +8,10 @@ Test::EasyMock::Expectation - A expected behavior object.
 
 =cut
 use Carp qw(croak);
-use Scalar::Util qw(refaddr);
 
 =head1 CONSTRUCTORS
 
-=head2 new({mock=>$mock, method=>$method, args=>$args})
+=head2 new(method=>$method, args=>$args})
 
 Create a instance.
 
@@ -20,21 +19,10 @@ Create a instance.
 sub new {
     my ($class, $args) = @_;
     return bless {
-        _mock => $args->{mock},
         _method => $args->{method},
         _args => $args->{args},
         _results => [ { code => sub { return; }, implicit => 1 } ],
     }, $class;
-}
-
-=head1 PROPERTIES
-
-=head2 mock - A related mock object.
-
-=cut
-sub mock {
-    my ($self) = @_;
-    return $self->{_mock};
 }
 
 =head1 METHODS
@@ -112,8 +100,7 @@ It is tested whether the specified argument matches.
 =cut
 sub matches {
     my ($self, $args) = @_;
-    return refaddr($self->{_mock}) == refaddr($args->{mock})
-        && $self->{_method} eq $args->{method}
+    return $self->{_method} eq $args->{method}
         && $self->{_args}->matches($args->{args});
 }
 
