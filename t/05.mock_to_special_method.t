@@ -3,16 +3,14 @@ use warnings;
 
 use t::Util qw(expect_fail);
 use Test::More;
-
-my $class;
 BEGIN {
-  $class = use_ok('Test::EasyMock',
-                  qw{
-                     create_mock
-                     expect
-                     replay
-                     verify
-                  });
+    use_ok('Test::EasyMock',
+           qw{
+               create_mock
+               expect
+               replay
+               verify
+           });
 }
 
 # ----
@@ -38,4 +36,4 @@ subtest 'mock to can method' => sub {
 };
 
 # ----
-::done_testing;
+done_testing;
