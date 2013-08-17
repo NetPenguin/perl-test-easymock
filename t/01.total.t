@@ -14,10 +14,11 @@ BEGIN {
            });
 }
 use Test::Deep qw(ignore);
+use Test::LeakTrace;
 
 # ----
 # Tests.
-subtest 'default mock' => sub {
+subtest 'default mock' => sub { no_leaks_ok {
     my $mock = create_mock();
 
     subtest 'array arguments and array result' => sub {
@@ -183,7 +184,7 @@ subtest 'default mock' => sub {
         replay($mock);
         verify($mock);          # pass
     };
-};
+} 'no memory leaks'; };
 
 
 # ----
