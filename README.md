@@ -73,6 +73,25 @@ Using `Test::Deep`'s special comparisons.
     $mock->foo({ arg1 => 1, arg2 => 2 }); # return 'a'
     verify($mock);
 
+Mock to class method.
+
+    use Test::EasyMock qw(
+        expect
+        replay
+        verify
+    );
+    use Test::EasyMock::Class qw(
+        create_class_mock
+    );
+    
+
+    my $mock = create_class_mock('Foo::Bar');
+    expect($mock->foo(1))->and_scalar_return('a');
+    replay($mock);
+    Foo::Bar->foo(1); # return 'a'
+    Foo::Bar->foo(2); # Unexpected method call.(A test is failed)
+    verify($mock); # verify all expectations is invoked.
+
 # DESCRIPTION
 
 This is mock library modeled on 'EasyMock' in Java.
@@ -84,7 +103,7 @@ This is mock library modeled on 'EasyMock' in Java.
 Creates a mock object.
 If specified the _$module\_name_ then a _isa($module\_name)_ method of the mock object returns true.
 
-## expect($expectation)
+## expect(<a mock method call>)
 
 Record a method invocation and behavior.
 
@@ -165,6 +184,7 @@ modify it under the same terms as Perl itself. See [perlartistic](http://search.
 
 # SEE ALSO
 
+- `Test::EasyMock::Class`
 - EasyMock
 
     [http://easymock.org/](http://easymock.org/)

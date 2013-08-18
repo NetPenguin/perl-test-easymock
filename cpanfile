@@ -27,4 +27,6 @@ on develop => sub {
     requires 'Test::Pod';
     requires 'Test::Pod::Coverage';
     requires 'Minilla';
+    requires 'Version::Next';
+    requires 'CPAN::Uploader';
 };
