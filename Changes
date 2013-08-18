@@ -2,6 +2,10 @@ Revision history for Perl extension Test-EasyMock
 
 {{$NEXT}}
 
+0.09 2013-08-18T02:59:06Z
+
+  - Fix POD and Changes.
+
 0.08 2013-08-18T02:08:53Z
 
   - Fix circular reference.

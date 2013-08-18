@@ -184,7 +184,6 @@ modify it under the same terms as Perl itself. See [perlartistic](http://search.
 
 # SEE ALSO
 
-- `Test::EasyMock::Class`
 - EasyMock
 
     [http://easymock.org/](http://easymock.org/)
@@ -194,3 +193,7 @@ modify it under the same terms as Perl itself. See [perlartistic](http://search.
 - Test::Deep
 
     [http://search.cpan.org/~rjbs/Test-Deep-0.110/lib/Test/Deep.pm](http://search.cpan.org/~rjbs/Test-Deep-0.110/lib/Test/Deep.pm)
+
+- Test::EasyMock::Class
+
+    [http://search.cpan.org/~kiseki/Test-EasyMock/lib/Test/EasyMock/Class.pm](http://search.cpan.org/~kiseki/Test-EasyMock/lib/Test/EasyMock/Class.pm)
