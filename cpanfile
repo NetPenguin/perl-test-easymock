@@ -1,5 +1,3 @@
-# TODO: scan-prereqs-cpanfile で過不足ない状態にする
-requires 'Carp';
 requires 'Data::Dump';
 requires 'Data::Util';
 requires 'List::Util';
@@ -7,6 +5,7 @@ requires 'Scalar::Util';
 requires 'Test::Builder';
 requires 'Test::Deep::NoTest';
 requires 'Test::MockModule';
+requires 'parent';
 requires 'version';
 
 on configure => sub {
