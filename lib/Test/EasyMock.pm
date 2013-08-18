@@ -254,8 +254,6 @@ modify it under the same terms as Perl itself. See L<perlartistic>.
 
 =over
 
-=item C<Test::EasyMock::Class>
-
 =item EasyMock
 
 L<http://easymock.org/>
@@ -265,6 +263,10 @@ It is a very wonderful library for the Java of a mock object.
 =item Test::Deep
 
 L<http://search.cpan.org/~rjbs/Test-Deep-0.110/lib/Test/Deep.pm>
+
+=item Test::EasyMock::Class
+
+L<http://search.cpan.org/~kiseki/Test-EasyMock/lib/Test/EasyMock/Class.pm>
 
 =back
 
