@@ -208,7 +208,7 @@ sub __delegate {
     my ($method, $mock, @args) = @_;
     my $control = __control_of($mock)
         or confess('Speocified mock is not under management');
-    return $control->$method(@args);
+    return $control->$method($mock, @args);
 }
 
 sub __control_of {

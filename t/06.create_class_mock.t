@@ -10,9 +10,6 @@ BEGIN {
 use t::Foo;
 
 # ----
-# Helper.
-
-# ----
 # Tests.
 subtest 'mock class method.' => sub {
     my $mock = create_class_mock('t::Foo');
@@ -54,21 +51,9 @@ subtest 'mock class method.' => sub {
     reset($mock);
 
     subtest 'after gc' => sub {
-        {
-            expect($mock->foo(1))->and_stub_scalar_return('a');
-            replay($mock);
-            my $control = $mock->{_control};
-            my $x = $mock;
-            use Scalar::Util qw(weaken isweak);
-            weaken($control);
-            weaken($x);
-            warn "BEFORE: CONTROL: $control";
-            $mock = undef;
-            undef($mock);
-            warn "AFTER: CONTROL: $control";
-            warn "AFTER: MOCK: $x\n", isweak($x);
-            use Data::Dumper; warn Dumper($x);
-        }
+        expect($mock->foo(1))->and_stub_scalar_return('a');
+        replay($mock);
+        $mock = undef;
         is(t::Foo->foo(1), 'original-foo', 'result');
     };
 };

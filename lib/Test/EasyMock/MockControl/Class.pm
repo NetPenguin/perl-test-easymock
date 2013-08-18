@@ -2,6 +2,11 @@ package Test::EasyMock::MockControl::Class;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Test::EasyMock::MockControl::Class - Control behavior of the class method mocking.
+
+=cut
 use parent qw(Test::EasyMock::MockControl);
 use Carp qw(confess);
 use Scalar::Util qw(weaken);
@@ -21,13 +26,13 @@ sub replay {
     my $self = shift;
     $self->SUPER::replay(@_);
 
+    # prevent circular reference
     my ($mock) = @_;
+    weaken($mock);
+
     my $mock_module = Test::MockModule->new($self->{_module});
     foreach my $expectation (@{$self->{_expectations}}) {
         my $method = $expectation->method;
-        # prevent circular reference
-        weaken($mock);
-
         $mock_module->mock($method => sub {
                                my $class = shift;
                                return $mock->$method(@_);
