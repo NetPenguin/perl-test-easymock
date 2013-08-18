@@ -19,7 +19,6 @@ Test::EasyMock::Class - support class method mocking.
     verify($mock); # verify all expectations is invoked.
 
 =cut
-use Carp;
 use Exporter qw(import);
 use Test::EasyMock::MockControl::Class;
 
