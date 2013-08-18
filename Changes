@@ -3,6 +3,7 @@ Revision history for Perl extension Test-EasyMock
 {{$NEXT}}
 
   * Fix circular reference.
+  * Support class method mocking.
 
 0.07 2013-07-05T03:12:05Z
 

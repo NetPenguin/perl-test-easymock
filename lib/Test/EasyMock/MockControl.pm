@@ -139,7 +139,7 @@ Record the expectation of the mock method invocation.
 
 =cut
 sub expect {
-    my ($self, $expectation) = @_;
+    my ($self, $mock, $expectation) = @_;
     push @{$self->{_expectations}}, $expectation;
     return Test::EasyMock::ExpectationSetters->new($expectation);
 }

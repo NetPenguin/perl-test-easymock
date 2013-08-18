@@ -25,6 +25,16 @@ sub new {
     }, $class;
 }
 
+=head1 PROPERTIES
+
+=head2 method - An expected method name.
+
+=cut
+sub method {
+    my ($self) = @_;
+    return $self->{_method};
+}
+
 =head1 METHODS
 
 =head2 push_result($code)

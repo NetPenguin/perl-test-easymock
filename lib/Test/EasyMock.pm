@@ -73,6 +73,24 @@ Using C<Test::Deep>'s special comparisons.
     $mock->foo({ arg1 => 1, arg2 => 2 }); # return 'a'
     verify($mock);
 
+Mock to class method.
+
+    use Test::EasyMock qw(
+        expect
+        replay
+        verify
+    );
+    use Test::EasyMock::Class qw(
+        create_class_mock
+    );
+    
+    my $mock = create_class_mock('Foo::Bar');
+    expect($mock->foo(1))->and_scalar_return('a');
+    replay($mock);
+    Foo::Bar->foo(1); # return 'a'
+    Foo::Bar->foo(2); # Unexpected method call.(A test is failed)
+    verify($mock); # verify all expectations is invoked.
+
 =head1 DESCRIPTION
 
 This is mock library modeled on 'EasyMock' in Java.
@@ -208,7 +226,7 @@ sub __delegate {
     my ($method, $mock, @args) = @_;
     my $control = __control_of($mock)
         or confess('Speocified mock is not under management');
-    return $control->$method(@args);
+    return $control->$method($mock, @args);
 }
 
 sub __control_of {
@@ -235,6 +253,8 @@ modify it under the same terms as Perl itself. See L<perlartistic>.
 =head1 SEE ALSO
 
 =over
+
+=item C<Test::EasyMock::Class>
 
 =item EasyMock
 
