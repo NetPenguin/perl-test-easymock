@@ -12,6 +12,13 @@ use Carp qw(confess);
 use Scalar::Util qw(weaken);
 use Test::MockModule;
 
+=head1 CONSTRUCTORS
+
+=head2 new($module)
+
+Create a control instance for class method mocking.
+
+=cut
 sub new {
     my $class = shift;
     my $self = $class->SUPER::new(@_);
@@ -22,6 +29,14 @@ sub new {
     return $self;
 }
 
+=head1 INSTANCE METHODS
+
+=head2 replay
+
+Change to I<replay> mode.
+Override for creating C<Test::MockModule> and mocking class method.
+
+=cut
 sub replay {
     my $self = shift;
     $self->SUPER::replay(@_);
@@ -42,6 +57,12 @@ sub replay {
     $self->{_mock_module} = $mock_module;
 }
 
+=head2 reset
+
+Clear expectations and change to I<record> mode.
+Override for release C<Test::MockModule> instance.
+
+=cut
 sub reset {
     my $self = shift;
     $self->SUPER::reset(@_);
