@@ -46,6 +46,17 @@ sub and_array_return {
     return $self;
 }
 
+=head2 and_list_return(@values)
+
+Add list result to the expectation.
+
+=cut
+sub and_list_return {
+    my ($self, @list) = @_;
+    $self->{_expectaion}->push_result(sub { wantarray ? @list : $list[-1] });
+    return $self;
+}
+
 =head2 and_die([$message])
 
 Add I<die> behavior to the expectation.
@@ -76,6 +87,17 @@ Set array result as a stub to the expectation.
 sub and_stub_array_return {
     my ($self, @array) = @_;
     $self->{_expectaion}->set_stub_result(sub { @array });
+    return $self;
+}
+
+=head2 and_stub_list_return(@values)
+
+Set list result as a stub to the expectation.
+
+=cut
+sub and_stub_list_return {
+    my ($self, @list) = @_;
+    $self->{_expectaion}->set_stub_result(sub { wantarray ? @list : $list[-1] });
     return $self;
 }
 
