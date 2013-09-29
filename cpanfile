@@ -23,6 +23,7 @@ on test => sub {
 };
 
 on develop => sub {
+    requires 'TAP::Harness::Archive';
     requires 'Test::Perl::Critic';
     requires 'Test::Pod';
     requires 'Test::Pod::Coverage';
