@@ -49,6 +49,32 @@ subtest 'default mock' => sub {
 
     reset($mock);
 
+    subtest 'expect and_list_return in list context' => sub {
+        my ($result1, $result2, $result3) = qw(result1 result2 result3);
+        expect($mock->foo)->and_list_return($result1, $result2, $result3);
+        replay($mock);
+
+        my @actual = $mock->foo;
+
+        is_deeply(\@actual, [$result1, $result2, $result3], 'result');
+        verify($mock);
+    };
+
+    reset($mock);
+
+    subtest 'expect and_list_return in scalar context' => sub {
+        my ($result1, $result2, $result3) = qw(result1 result2 result3);
+        expect($mock->foo)->and_list_return($result1, $result2, $result3);
+        replay($mock);
+
+        my $actual = $mock->foo;
+
+        is($actual, $result3, 'result');
+        verify($mock);
+    };
+
+    reset($mock);
+
     subtest 'with Test::Deep comparison parameter' => sub {
         my $result1 = 'a result of first.';
         my $result2 = 'a result of sencond.';
@@ -179,11 +205,83 @@ subtest 'default mock' => sub {
 
     reset($mock);
 
-    subtest 'expec with `stub_scalar_return`, but no call mock method.' => sub {
+    subtest 'expect with `stub_scalar_return`, but no call mock method.' => sub {
         expect($mock->foo())->and_stub_scalar_return('');
         replay($mock);
         verify($mock);          # pass
     };
+
+    reset($mock);
+
+    subtest 'and_stub_array_return' => sub {
+        my $args1 = 'argument';
+        my @result1_1 = ('a result of first.');
+        my @result1_2 = ('a result of second.');
+        my $args2 = 'other';
+        my @result2 = ('a result of other.');
+
+        expect($mock->foo($args1))->and_array_return(@result1_1);
+        expect($mock->foo($args1))->and_stub_array_return(@result1_2);
+        expect($mock->foo($args2))->and_stub_array_return(@result2);
+        replay($mock);
+
+        my @actual1_1 = $mock->foo($args1);
+        my @actual1_2 = $mock->foo($args1);
+        my @actual1_3 = $mock->foo($args1);
+        my @actual2 = $mock->foo($args2);
+
+        is_deeply(\@actual1_1, \@result1_1, 'result1_1');
+        is_deeply(\@actual1_2, \@result1_2, 'result1_2');
+        is_deeply(\@actual1_3, \@result1_2, 'result1_3');
+        is_deeply(  \@actual2,   \@result2,   'result2');
+
+        verify($mock);
+    };
+
+    reset($mock);
+
+    subtest 'expect with `stub_array_return`, but no call mock method.' => sub {
+        expect($mock->foo())->and_stub_array_return('');
+        replay($mock);
+        verify($mock);          # pass
+    };
+
+    reset($mock);
+
+    subtest 'and_stub_list_return' => sub {
+        my $args1 = 'argument';
+        my @result1_1 = ('a result of first-1.', 'a result of first-2.');
+        my @result1_2 = ('a result of second-1.', 'a result of second-2.');
+        my $args2 = 'other';
+        my @result2 = ('a result of other-1.', 'a result of other-2.');
+
+        expect($mock->foo($args1))->and_list_return(@result1_1);
+        expect($mock->foo($args1))->and_stub_list_return(@result1_2);
+        expect($mock->foo($args2))->and_stub_list_return(@result2);
+        replay($mock);
+
+        my @actual1_1 = $mock->foo($args1);
+        my @actual1_2 = $mock->foo($args1);
+        my $actual1_3 = $mock->foo($args1);
+        my @actual2 = $mock->foo($args2);
+
+        is_deeply(\@actual1_1, \@result1_1, 'result1_1');
+        is_deeply(\@actual1_2, \@result1_2, 'result1_2');
+        is($actual1_3, $result1_2[1], 'result1_3');
+        is_deeply(  \@actual2,   \@result2,   'result2');
+
+        verify($mock);
+    };
+
+    reset($mock);
+
+    subtest 'expect with `stub_list_return`, but no call mock method.' => sub {
+        expect($mock->foo())->and_stub_list_return('');
+        replay($mock);
+        verify($mock);          # pass
+    };
+
+    reset($mock);
 
     subtest 'destroy mock object' => sub {
         my $weak_ref_mock = $mock;

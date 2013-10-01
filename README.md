@@ -129,6 +129,10 @@ and a result of the invocation is _(1, 2, 3)_.
 
     Add array result to the expectation.
 
+- and\_list\_return(@values)
+
+    Add list result to the expectation.
+
 - and\_die(\[$message\])
 
     Add _die_ behavior to the expectation.
@@ -140,6 +144,10 @@ and a result of the invocation is _(1, 2, 3)_.
 - and\_stub\_array\_return(@values)
 
     Set array result as a stub to the expectation.
+
+- and\_stub\_list\_return(@values)
+
+    Set list result as a stub to the expectation.
 
 - and\_stub\_die(\[$message\])
 

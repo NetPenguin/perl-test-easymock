@@ -2,6 +2,8 @@ Revision history for Perl extension Test-EasyMock
 
 {{$NEXT}}
 
+  - Add 'add_list_return' and 'add_stub_list_return' method at ExpectationsSetter.
+
 0.09 2013-08-18T02:59:06Z
 
   - Fix POD and Changes.

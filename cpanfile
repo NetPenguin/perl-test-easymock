@@ -23,10 +23,13 @@ on test => sub {
 };
 
 on develop => sub {
+    requires 'CPAN::Uploader';
+    requires 'Devel::Cover';
+    requires 'Devel::Cover::Report::Clover';
+    requires 'Minilla';
+    requires 'TAP::Harness::Archive';
     requires 'Test::Perl::Critic';
     requires 'Test::Pod';
     requires 'Test::Pod::Coverage';
-    requires 'Minilla';
     requires 'Version::Next';
-    requires 'CPAN::Uploader';
 };
