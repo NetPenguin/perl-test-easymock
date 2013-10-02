@@ -157,6 +157,10 @@ Add array result to the expectation.
 
 Add list result to the expectation.
 
+=item and_answer($code)
+
+Add code to the expectation, it calculate an answer.
+
 =item and_die([$message])
 
 Add I<die> behavior to the expectation.
@@ -172,6 +176,10 @@ Set array result as a stub to the expectation.
 =item and_stub_list_return(@values)
 
 Set list result as a stub to the expectation.
+
+=item and_stub_answer($code)
+
+Add code as a stub to the expectation, it calculate an answer.
 
 =item and_stub_die([$message])
 

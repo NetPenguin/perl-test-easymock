@@ -76,6 +76,19 @@ subtest 'default mock' => sub {
 
     reset($mock);
 
+    subtest 'expect and_answer' => sub {
+        my $result = 'result';
+        expect($mock->foo)->and_answer(sub { $result });
+        replay($mock);
+
+        my $actual = $mock->foo;
+
+        is($actual, $result, 'result');
+        verify($mock);
+    };
+
+    reset($mock);
+
     subtest 'expect and_die' => sub {
         my $error = 'an error message';
         expect($mock->foo)->and_die($error);
@@ -296,6 +309,31 @@ subtest 'default mock' => sub {
 
     reset($mock);
 
+    subtest 'and_stub_answer' => sub {
+        my $args1 = 'argument';
+        my $result1_1 = 'a result of first.';
+        my $result1_2 = 'a result of second.';
+        my $args2 = 'other';
+        my $result2 = 'a result of other.';
+        expect($mock->foo($args1))->and_answer(sub { $result1_1 });
+        expect($mock->foo($args1))->and_stub_answer(sub { $result1_2 });
+        expect($mock->foo($args2))->and_stub_answer(sub { $result2 });
+        replay($mock);
+
+        my $actual1_1 = $mock->foo($args1);
+        my $actual1_2 = $mock->foo($args1);
+        my $actual1_3 = $mock->foo($args1);
+        my $actual2 = $mock->foo($args2);
+
+        is($actual1_1, $result1_1, 'result1_1');
+        is($actual1_2, $result1_2, 'result1_2');
+        is($actual1_3, $result1_2, 'result1_2');
+        is($actual2, $result2, 'result2');
+        verify($mock);
+    };
+
+    reset($mock);
+
     subtest 'and_stub_die' => sub {
         my $args1 = 'argument';
         my $error1_1 = 'an error message of first';
@@ -309,6 +347,7 @@ subtest 'default mock' => sub {
         replay($mock);
 
         throws_ok { $mock->foo($args1) } qr{$error1_1}, 'throw error1_1';
+        throws_ok { $mock->foo($args1) } qr{$error1_2}, 'throw error1_2';
         throws_ok { $mock->foo($args1) } qr{$error1_2}, 'throw error1_2';
         throws_ok { $mock->foo($args2) } qr{$error2}, 'throw error2';
 

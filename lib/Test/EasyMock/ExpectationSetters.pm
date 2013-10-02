@@ -57,6 +57,17 @@ sub and_list_return {
     return $self;
 }
 
+=head2 and_answer($code)
+
+Add a code to the expectation, it calculate an answer.
+
+=cut
+sub and_answer {
+    my ($self, $code) = @_;
+    $self->{_expectaion}->push_result($code);
+    return $self;
+}
+
 =head2 and_die([$message])
 
 Add I<die> behavior to the expectation.
@@ -98,6 +109,17 @@ Set list result as a stub to the expectation.
 sub and_stub_list_return {
     my ($self, @list) = @_;
     $self->{_expectaion}->set_stub_result(sub { wantarray ? @list : $list[-1] });
+    return $self;
+}
+
+=head2 and_stub_answer($code)
+
+Add a code as a stub to the expectation, it calculate an answer.
+
+=cut
+sub and_stub_answer {
+    my ($self, $code) = @_;
+    $self->{_expectaion}->set_stub_result($code);
     return $self;
 }
 
