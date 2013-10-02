@@ -14,6 +14,7 @@ BEGIN {
            });
 }
 use Test::Deep qw(ignore);
+use Test::Exception;
 use Scalar::Util qw(weaken);
 
 # ----
@@ -70,6 +71,18 @@ subtest 'default mock' => sub {
         my $actual = $mock->foo;
 
         is($actual, $result3, 'result');
+        verify($mock);
+    };
+
+    reset($mock);
+
+    subtest 'expect and_die' => sub {
+        my $error = 'an error message';
+        expect($mock->foo)->and_die($error);
+        replay($mock);
+
+        throws_ok { $mock->foo } qr{$error}, 'throw error';
+
         verify($mock);
     };
 
@@ -208,7 +221,7 @@ subtest 'default mock' => sub {
     subtest 'expect with `stub_scalar_return`, but no call mock method.' => sub {
         expect($mock->foo())->and_stub_scalar_return('');
         replay($mock);
-        verify($mock);          # pass
+        verify($mock); # pass
     };
 
     reset($mock);
@@ -243,7 +256,7 @@ subtest 'default mock' => sub {
     subtest 'expect with `stub_array_return`, but no call mock method.' => sub {
         expect($mock->foo())->and_stub_array_return('');
         replay($mock);
-        verify($mock);          # pass
+        verify($mock); # pass
     };
 
     reset($mock);
@@ -278,7 +291,36 @@ subtest 'default mock' => sub {
     subtest 'expect with `stub_list_return`, but no call mock method.' => sub {
         expect($mock->foo())->and_stub_list_return('');
         replay($mock);
-        verify($mock);          # pass
+        verify($mock); # pass
+    };
+
+    reset($mock);
+
+    subtest 'and_stub_die' => sub {
+        my $args1 = 'argument';
+        my $error1_1 = 'an error message of first';
+        my $error1_2 = 'an error message of second';
+        my $args2 = 'other';
+        my $error2 = 'an error message of other';
+
+        expect($mock->foo($args1))->and_die($error1_1);
+        expect($mock->foo($args1))->and_stub_die($error1_2);
+        expect($mock->foo($args2))->and_stub_die($error2);
+        replay($mock);
+
+        throws_ok { $mock->foo($args1) } qr{$error1_1}, 'throw error1_1';
+        throws_ok { $mock->foo($args1) } qr{$error1_2}, 'throw error1_2';
+        throws_ok { $mock->foo($args2) } qr{$error2}, 'throw error2';
+
+        verify($mock);
+    };
+
+    reset($mock);
+
+    subtest 'expect with `stub_die`, but no call mock method.' => sub {
+        expect($mock->foo())->and_stub_die('');
+        replay($mock);
+        verify($mock); # pass
     };
 
     reset($mock);
