@@ -36,7 +36,10 @@
       "develop" : {
          "requires" : {
             "CPAN::Uploader" : "0",
+            "Devel::Cover" : "0",
+            "Devel::Cover::Report::Clover" : "0",
             "Minilla" : "0",
+            "TAP::Harness::Archive" : "0",
             "Test::CPAN::Meta" : "0",
             "Test::MinimumVersion" : "0.10108",
             "Test::Perl::Critic" : "0",
@@ -79,8 +82,8 @@
          "web" : "https://github.com/NetPenguin/perl-test-easymock"
       }
    },
-   "version" : "0.09",
+   "version" : "0.10",
    "x_contributors" : [
-      "keita.iseki <keita.iseki@gmail.com>"
+      "NetPenguin <keita.iseki@gmail.com>"
    ]
 }

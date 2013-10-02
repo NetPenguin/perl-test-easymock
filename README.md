@@ -133,6 +133,10 @@ and a result of the invocation is _(1, 2, 3)_.
 
     Add list result to the expectation.
 
+- and\_answer($code)
+
+    Add code to the expectation, it calculate an answer.
+
 - and\_die(\[$message\])
 
     Add _die_ behavior to the expectation.
@@ -148,6 +152,10 @@ and a result of the invocation is _(1, 2, 3)_.
 - and\_stub\_list\_return(@values)
 
     Set list result as a stub to the expectation.
+
+- and\_stub\_answer($code)
+
+    Add code as a stub to the expectation, it calculate an answer.
 
 - and\_stub\_die(\[$message\])
 
